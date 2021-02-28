@@ -1,0 +1,45 @@
+https://www.youtube.com/watch?v=Dnxp1QMhxTI&list=PLxFwlLOncxFLxT3ZxYPw7-hCrXhdZHg1W&index=1
+- composer require laravel/fortify 
+- php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider" 
+- create a database und save it in .env
+- php artisan migrate 
+- npm install bootstrap@next popper.js sass sass-loader --save-dev 
+- open webpack.mix.js and change the follows:
+1- mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css'); 
+2- unter resources we create a sass directory and in this app.scss 
+3- in app.scss we write:  @import "~bootstrap/scss/bootstrap";
+4- npm install 
+5- npm run dev 
+- Jedes mal wenn man Änderung an app.scss macht muss man npm run watch rufen
+- In config/app.php wird folgende Zeile eingefügt: App\Providers\FortifyServiceProvider::class, 
+- So in Providers\FrotifyServiceProvider schreibe ich die routes für login und register 
+- Ich erstelle ein Verzeichnis auth unter resouces\views\auth und in dem erstelle ich login und 
+  register blade. Ich habe diese blades von anderen Projects oder durch google suche.
+- Ich füge ein route für home damit nach dem erfolgreichen Registrieren oder login dazu führt.
+- Nun erstelle ich ein Role model und eine role_user Tabelle. Es existiert eine Many To Many 
+  relationship. Ich schreibe eine entsprechende Funktionen in User und Role model. (Sehe in den models)
+- Um zufällige Daten in die Datenbank zu speichern brauchen wir sowohl Seeder als auch factory Klassen.
+  In unserem Fall UserSeeder, RoleSeeder, UserFactory und RoleFactory. Dann werden die Befhle in den 
+  Klassen entsprechend geschrieben.
+- In Seederklassen werden die Factoryklassen aufgerufen und so bildet man zufällige Daten und das
+  passiert mit UserSeeder. Aber in RoleSeeder werden exackte roles erzeugt und so muss man nicht 
+  FactoryKlasse aufrufen. So auch in RoleUserklasse werden die entsprechenden Daten für diese
+  Tabelle durch Role und User klasse erzeugt. 
+- Man fügt dann in DatabaseSeeder die Aufrufe für UserSeeder und RoleSeeder sowie RoleUserSeeder ein 
+- Man ruft im Terminal : php artisan migrate:refresh --seed wenn in users und roles Daten vorhaneden sind
+- Ansonsten ruft man php artisan db:seed 
+- Durch diese Schritte erzeugt man zufällige Daten in den drei Tabellen (users, roles und role_user)
+- Falls paginate nicht funktioniert, geht in AppServieProvider und fügt die Zeilen (Siehe Datei AppServieProvider)
+- Für den Fall dass wir frische Daten in users, roles und rol_user haben wollen, dann einfach folgendes:
+  php artisan migrate:refresh --seed 
+- Um die Daten für das Erstellen von neuen User benutze ich hier die Funktion sync und nicht attach 
+  weil man mit attach nur erlaubt uns nur ein id zu übermitteln und ich hier zwei id's übermitteln möchte
+  und so benutze ich sync.
+- Gates:
+  Öffne AuthServiceProvider und gehe in die Funktion boot und definiere ein Gate. 
+- Man kann in main.blade.php die Funktion can mit dem Namen des Gates benuzen und nur dan sub.nav 
+  wenn einem dies erlaubt ist. 
+- Email Verification:
+  Man sollte erst einmal in config/fortify.php und die Kommentare vor dieser Zeile löschen Features::emailVerification(),
+
